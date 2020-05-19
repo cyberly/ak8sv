@@ -1,16 +1,14 @@
 package ak8sv
 
 import (
+	ctx "context"
+	"fmt"
 	"net/url"
+	"path"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/2019-03-01/keyvault/keyvault"
 	kvauth "github.com/Azure/azure-sdk-for-go/services/keyvault/auth"
-)
-
-var (
-	kv     keyvault.BaseClient = newKvClient()
-	kvName string              = InitEnvData("KEYVAULT_NAME")
 )
 
 // GetKvURL - Turn standard KV name into full URL
@@ -22,6 +20,20 @@ func GetKvURL(kvName string) string {
 		return kvName
 	}
 	return "https://" + kvName + ".vault.azure.net"
+}
+
+// GetSecretList - Get the names of all sevret names in keyvault
+func GetSecretList() []string {
+	var l []string
+	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), nil)
+	if err != nil {
+		fmt.Println("Unable to retrieve secrets:")
+		panic(err.Error())
+	}
+	for _, i := range lResp.Values() {
+		l = append(l, path.Base(*i.ID))
+	}
+	return l
 }
 
 func newKvClient() keyvault.BaseClient {

@@ -15,14 +15,6 @@ import (
 	"k8s.io/client-go/util/homedir"
 )
 
-var (
-	sData                            = make(map[string][]byte)
-	sName      string                = InitEnvData("SECRET_NAME")
-	sNamespace string                = InitEnvData("SECRET_NAMESPACE")
-	sType      string                = InitEnvData("SECRET_TYPE")
-	k8s        *kubernetes.Clientset = newK8sClient()
-)
-
 // ApplySecret - Apply the secret configured by ingested environment variables
 func ApplySecret(data apiv1.Secret) *apiv1.Secret {
 	var secretResp *apiv1.Secret
