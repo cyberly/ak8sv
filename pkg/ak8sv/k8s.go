@@ -17,13 +17,14 @@ import (
 
 var (
 	sData                            = make(map[string][]byte)
-	sName      string                = initEnvData("SECRET_NAME")
-	sNamespace string                = initEnvData("SECRET_NAMESPACE")
-	sType      string                = initEnvData("SECRET_TYPE")
+	sName      string                = InitEnvData("SECRET_NAME")
+	sNamespace string                = InitEnvData("SECRET_NAMESPACE")
+	sType      string                = InitEnvData("SECRET_TYPE")
 	k8s        *kubernetes.Clientset = newK8sClient()
 )
 
-func applySecret(data apiv1.Secret) *apiv1.Secret {
+// ApplySecret - Apply the secret configured by ingested environment variables
+func ApplySecret(data apiv1.Secret) *apiv1.Secret {
 	var secretResp *apiv1.Secret
 	var err error
 	if checkSecret() {

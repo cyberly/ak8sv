@@ -10,9 +10,10 @@ import (
 
 var (
 	kv     keyvault.BaseClient = newKvClient()
-	kvName string              = initEnvData("KEYVAULT_NAME")
+	kvName string              = InitEnvData("KEYVAULT_NAME")
 )
 
+// GetKvURL - Turn standard KV name into full URL
 func GetKvURL(kvName string) string {
 	// vault.azure.net
 	_, err := url.Parse(kvName)
