@@ -1,4 +1,4 @@
-module github.com/cyberly/ak8sv
+module ak8sv
 
 go 1.14
 
