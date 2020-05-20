@@ -1,6 +1,7 @@
 package ak8sv
 
 import (
+	"context"
 	ctx "context"
 	"fmt"
 	"net/url"
@@ -34,6 +35,16 @@ func GetSecretList() []string {
 		l = append(l, path.Base(*i.ID))
 	}
 	return l
+}
+
+// GetSecret - Retrieve the value of a KV secret
+func GetSecret(s string) string {
+	v, err := kv.GetSecret(context.Background(), GetKvURL(kvName), s, "")
+	if err != nil {
+		fmt.Printf("Failed to get value for %v.\n", s)
+		panic(err.Error())
+	}
+	return *v.Value
 }
 
 func newKvClient() keyvault.BaseClient {

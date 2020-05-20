@@ -1,6 +1,7 @@
 package ak8sv
 
 import (
+	"context"
 	ctx "context"
 	"flag"
 	"fmt"
@@ -76,7 +77,17 @@ func newK8sClientLocal() kubernetes.Clientset {
 	return *clientset
 }
 
-func newConfigSecret(sData map[string][]byte) apiv1.Secret {
+// NewConfigSecret - Create a new secret for application configuration
+func NewConfigSecret(sList []string) apiv1.Secret {
+	sPayload := make(map[string][]byte)
+	for _, k := range sList {
+		v, err := kv.GetSecret(context.Background(), GetKvURL(kvName), k, "")
+		if err != nil {
+			fmt.Printf("Failed to get value for %v.\n", k)
+			panic(err.Error())
+		}
+		sPayload[k] = []byte(*v.Value)
+	}
 	s := apiv1.Secret{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Secret",
@@ -86,7 +97,7 @@ func newConfigSecret(sData map[string][]byte) apiv1.Secret {
 			Name:      sName,
 			Namespace: sNamespace,
 		},
-		Data: sData,
+		Data: sPayload,
 		Type: "Opaque",
 	}
 	return s

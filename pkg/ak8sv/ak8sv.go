@@ -12,7 +12,6 @@ var (
 	k8s        *kubernetes.Clientset = newK8sClient()
 	kv         keyvault.BaseClient   = newKvClient()
 	kvName     string                = initEnvData("KEYVAULT_NAME")
-	sData                            = make(map[string][]byte)
 	sName      string                = initEnvData("SECRET_NAME")
 	sNamespace string                = initEnvData("SECRET_NAMESPACE")
 	sType      string                = initEnvData("SECRET_TYPE")
