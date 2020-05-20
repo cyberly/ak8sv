@@ -36,16 +36,6 @@ github.com/NYTimes/gziphandler v0.0.0-20170623195520-56545f4a5d46/go.mod h1:3wb0
 github.com/PuerkitoBio/purell v1.0.0/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbtSwDGJws/X0=
 github.com/PuerkitoBio/urlesc v0.0.0-20160726150825-5bd2802263f2/go.mod h1:uGdkoq3SwY9Y+13GIhn11/XLaGBb4BfwItxLd5jeuXE=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
-github.com/cyberly/ak8sv v0.0.0-20200519190259-84251e0294ac h1:AXh5KwdURYRZBc6PN9WSXM28pePXX9h6kPq56iOIPmY=
-github.com/cyberly/ak8sv v0.0.0-20200519190259-84251e0294ac/go.mod h1:UMiqK8aoM1lilWW3LpmVdf/iJk2s1wiE/ibg50n12zg=
-github.com/cyberly/ak8sv v0.0.0-20200519201931-7e5548a43d2d h1:pi8b1DlyKA/S6/CGjRXqtwapzNzA4m4UbhbIkBDlGkM=
-github.com/cyberly/ak8sv v0.0.0-20200519201931-7e5548a43d2d/go.mod h1:UMiqK8aoM1lilWW3LpmVdf/iJk2s1wiE/ibg50n12zg=
-github.com/cyberly/ak8sv v0.0.0-20200519203654-e728dc304030 h1:ge1IGQSe4T4isH2FRblw8+XUqRWaQICvC5m/AjPRANM=
-github.com/cyberly/ak8sv v0.0.0-20200519203654-e728dc304030/go.mod h1:UMiqK8aoM1lilWW3LpmVdf/iJk2s1wiE/ibg50n12zg=
-github.com/cyberly/ak8sv v0.0.0-20200520142552-f8a5a6ef94d9 h1:O7wGWb/WnbezFqyj0TqiLNEuVM64p6zyyxYD5H8MdMs=
-github.com/cyberly/ak8sv v0.0.0-20200520142552-f8a5a6ef94d9/go.mod h1:UMiqK8aoM1lilWW3LpmVdf/iJk2s1wiE/ibg50n12zg=
-github.com/cyberly/ak8sv v0.0.0-20200520145232-f2598b606c96 h1:w5omO54SLoVa1qdhU3oPiOBeaBbcbYmfa5yZ5EYhozA=
-github.com/cyberly/ak8sv v0.0.0-20200520145232-f2598b606c96/go.mod h1:UMiqK8aoM1lilWW3LpmVdf/iJk2s1wiE/ibg50n12zg=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

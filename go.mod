@@ -1,4 +1,4 @@
-module ak8sv
+module github.com/cyberly/ak8sv
 
 go 1.14
 
@@ -8,7 +8,6 @@ require (
 	github.com/Azure/go-autorest/autorest/azure/auth v0.4.2 // indirect
 	github.com/Azure/go-autorest/autorest/to v0.3.0 // indirect
 	github.com/Azure/go-autorest/autorest/validation v0.2.0 // indirect
-	github.com/cyberly/ak8sv v0.0.0-20200520145232-f2598b606c96
 	golang.org/x/net v0.0.0-20200226121028-0de0cce0169b // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d // indirect
 	golang.org/x/sys v0.0.0-20191026070338-33540a1f6037 // indirect
