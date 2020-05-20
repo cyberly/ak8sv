@@ -78,8 +78,9 @@ func newK8sClientLocal() kubernetes.Clientset {
 }
 
 // NewConfigSecret - Create a new secret for application configuration
-func NewConfigSecret(sList []string) apiv1.Secret {
+func NewConfigSecret() apiv1.Secret {
 	sPayload := make(map[string][]byte)
+	sList := GetSecretList()
 	for _, k := range sList {
 		v, err := kv.GetSecret(context.Background(), GetKvURL(kvName), k, "")
 		if err != nil {

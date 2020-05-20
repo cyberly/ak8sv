@@ -26,6 +26,7 @@ func GetKvURL(kvName string) string {
 // GetSecretList - Get the names of all sevret names in keyvault
 func GetSecretList() []string {
 	var l []string
+	fmt.Println("Retrieving secret list...")
 	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), nil)
 	if err != nil {
 		fmt.Println("Unable to retrieve secrets:")
@@ -39,6 +40,7 @@ func GetSecretList() []string {
 
 // GetSecret - Retrieve the value of a KV secret
 func GetSecret(s string) string {
+	fmt.Printf("Getting secret %v....\n", s)
 	v, err := kv.GetSecret(context.Background(), GetKvURL(kvName), s, "")
 	if err != nil {
 		fmt.Printf("Failed to get value for %v.\n", s)
