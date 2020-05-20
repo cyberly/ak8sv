@@ -21,10 +21,10 @@ func ApplySecret(data apiv1.Secret) *apiv1.Secret {
 	var secretResp *apiv1.Secret
 	var err error
 	if checkSecret() {
-		fmt.Println("Updating secret...")
+		fmt.Printf("%v/%v exists, updating....", sNamespace, sName)
 		secretResp, err = k8s.CoreV1().Secrets(sNamespace).Update(ctx.TODO(), &data, metav1.UpdateOptions{})
 	} else {
-		fmt.Println("Updating secret...")
+		fmt.Printf("%v/%v not found, creating...", sNamespace, sName)
 		secretResp, err = k8s.CoreV1().Secrets(sNamespace).Create(ctx.TODO(), &data, metav1.CreateOptions{})
 	}
 	if err != nil {
@@ -32,7 +32,7 @@ func ApplySecret(data apiv1.Secret) *apiv1.Secret {
 		fmt.Println("Applying secret failed, exiting.")
 		os.Exit(1)
 	}
-	fmt.Println("Secret applied successfully.")
+	fmt.Printf("%v/%v applied successfully.", sNamespace, sName)
 	return secretResp
 }
 
@@ -89,6 +89,7 @@ func NewConfigSecret() apiv1.Secret {
 		}
 		sPayload[k] = []byte(*v.Value)
 	}
+	fmt.Printf("%v configs added to secret.\n", len(sPayload))
 	s := apiv1.Secret{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Secret",

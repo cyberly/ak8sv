@@ -21,10 +21,11 @@ var (
 // Bootstrap - Entry point for the application
 func Bootstrap() {
 	var s apiv1.Secret
-	// General config dumping for easier debugging
-	fmt.Printf("Using Keyvault: %v\n", kvName)
-	fmt.Printf("URL: %v\n", GetKvURL(kvName))
-	fmt.Printf("Secret: %v/%v\n", sNamespace, sName)
+	fmt.Println("AK8sV Config:")
+	fmt.Println("Keyvault:")
+	fmt.Printf("Keyvault:\t%v\n", kvName)
+	fmt.Printf("\t\t%v\n", GetKvURL(kvName))
+	fmt.Printf("Secret:\t%v/%v\n\n", sNamespace, sName)
 	switch sType {
 	case "config":
 		s = NewConfigSecret()
@@ -35,7 +36,6 @@ func Bootstrap() {
 		os.Exit(1)
 	}
 	ApplySecret(s)
-	fmt.Println("Secret updated successfully.")
 }
 
 // InitEnvData - Ingest environment variables to configure app
