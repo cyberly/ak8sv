@@ -34,6 +34,10 @@ func GetSecretList() []string {
 		panic(err.Error())
 	}
 	for c, i := range lResp.Values() {
+		val, ok := i.Tags["prepublish"]
+		if ok {
+			fmt.Printf("Tag Prepublish: %v", *val)
+		}
 		l = append(l, path.Base(*i.ID))
 		sCount = c
 	}
