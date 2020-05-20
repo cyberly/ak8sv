@@ -37,7 +37,7 @@ func GetSecretList() []string {
 		l = append(l, path.Base(*i.ID))
 		sCount = c
 	}
-	fmt.Printf("Got %v secrets.", sCount)
+	fmt.Printf("Got %v secrets from key vault.\n", sCount)
 	return l
 }
 

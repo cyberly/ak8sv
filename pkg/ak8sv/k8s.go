@@ -21,10 +21,10 @@ func ApplySecret(data apiv1.Secret) *apiv1.Secret {
 	var secretResp *apiv1.Secret
 	var err error
 	if checkSecret() {
-		fmt.Printf("%v/%v exists, updating....", sNamespace, sName)
+		fmt.Printf("%v/%v exists, updating....\n", sNamespace, sName)
 		secretResp, err = k8s.CoreV1().Secrets(sNamespace).Update(ctx.TODO(), &data, metav1.UpdateOptions{})
 	} else {
-		fmt.Printf("%v/%v not found, creating...", sNamespace, sName)
+		fmt.Printf("%v/%v not found, creating...\n", sNamespace, sName)
 		secretResp, err = k8s.CoreV1().Secrets(sNamespace).Create(ctx.TODO(), &data, metav1.CreateOptions{})
 	}
 	if err != nil {
