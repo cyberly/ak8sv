@@ -10,9 +10,11 @@ import (
 )
 
 var (
-	k8s        *kubernetes.Clientset = newK8sClient()
+	kvInclude  string
+	kvExclude  string
 	kv         keyvault.BaseClient   = newKvClient()
 	kvName     string                = initEnvData("KEYVAULT_NAME")
+	k8s        *kubernetes.Clientset = newK8sClient()
 	sName      string                = initEnvData("SECRET_NAME")
 	sNamespace string                = initEnvData("SECRET_NAMESPACE")
 	sType      string                = initEnvData("SECRET_TYPE")
