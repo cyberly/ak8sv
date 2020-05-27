@@ -13,20 +13,17 @@ import (
 )
 
 func filterSecret(s keyvault.SecretItem, fi []string, fe []string) bool {
-	// These should be safe to run with an empty slice
-	// Add len check if results are unexpected
 	for _, t := range fi {
 		if _, hit := s.Tags[t]; !hit {
-			fmt.Printf("[KEYVAULT] Excluded secret %s, tag %s not present\n", path.Base(*s.ID), t)
 			return false
 		}
 	}
 	for _, t := range fe {
 		if _, hit := s.Tags[t]; !hit {
-			fmt.Printf("[KEYVAULT] Excluded secret %s, tag %s present\n", path.Base(*s.ID), t)
 			return false
 		}
 	}
+	fmt.Printf("[KEYVAULT] Secret %s (Inc: %v Ex: %v) included", path.Base(*s.ID), fi, fe)
 	return true
 }
 
