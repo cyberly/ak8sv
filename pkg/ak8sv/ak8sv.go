@@ -25,21 +25,21 @@ var (
 // Bootstrap - Entry point for the application
 func Bootstrap() {
 	var s apiv1.Secret
-	fmt.Println("AK8sV Config:")
-	fmt.Println("Keyvault:")
-	fmt.Printf("Keyvault:\t%v\n", kvName)
-	fmt.Printf("\t\t%v\n", GetKvURL(kvName))
-	fmt.Printf("Secret:\t%v/%v\n\n", sNamespace, sName)
+	fmt.Println("[AK8SV] Config:")
+	fmt.Println("[AK8SV] Keyvault:")
+	fmt.Printf("[AK8SV] Keyvault:\t%v\n", kvName)
+	fmt.Printf("[AK8SV]\t\t%v\n", GetKvURL(kvName))
+	fmt.Printf("[AK8SV] Secret:\t%v/%v\n\n", sNamespace, sName)
 	switch sType {
 	case "config":
 		if len(kvTagsInc) > 0 && len(kvTagsEx) > 0 {
-			fmt.Println("WARNING: Excluded tags will superceded included tags.")
+			fmt.Println("[AK8SV] WARNING: Excluded tags will superceded included tags.")
 		}
 		s = NewConfigSecret()
 	case "certificate":
-		fmt.Println("Not implemented yet.")
+		fmt.Println("[AK8SV] Not implemented yet.")
 	default:
-		fmt.Println("Unsupported secret type provided, exiting")
+		fmt.Println("[AK8SV] Unsupported secret type provided, exiting")
 		os.Exit(1)
 	}
 	ApplySecret(s)
@@ -49,7 +49,7 @@ func Bootstrap() {
 func initEnvData(e string) string {
 	v := os.Getenv(e)
 	if len(v) == 0 {
-		fmt.Printf("ERROR: Unable to read %v from environment!\n", e)
+		fmt.Printf("[AK8SV] ERROR: Unable to read %v from environment!\n", e)
 		os.Exit(1)
 	}
 	return v

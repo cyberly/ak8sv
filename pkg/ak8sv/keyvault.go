@@ -17,13 +17,13 @@ func filterSecret(s keyvault.SecretItem, fi []string, fe []string) bool {
 	// Add len check if results are unexpected
 	for _, t := range fi {
 		if _, hit := s.Tags[t]; !hit {
-			fmt.Printf("Excluded secret %s, tag %s not present", path.Base(*s.ID), t)
+			fmt.Printf("[KEYVAULT] Excluded secret %s, tag %s not present\n", path.Base(*s.ID), t)
 			return false
 		}
 	}
 	for _, t := range fe {
 		if _, hit := s.Tags[t]; !hit {
-			fmt.Printf("Excluded secret %s, tag %s present", path.Base(*s.ID), t)
+			fmt.Printf("[KEYVAULT] Excluded secret %s, tag %s present\n", path.Base(*s.ID), t)
 			return false
 		}
 	}
@@ -45,11 +45,11 @@ func GetKvURL(kvName string) string {
 func GetSecretList() []string {
 	var l []string
 	var fCount int
-	fmt.Println("Retrieving secret list...")
+	fmt.Println("[KEYVAULT] Retrieving secret list...")
 	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), nil)
-	fmt.Printf("Got %v secrets from key vault\n", len(lResp.Values()))
+	fmt.Printf("[KEYVAULT] Got %v secrets from key vault\n", len(lResp.Values()))
 	if err != nil {
-		fmt.Println("Unable to retrieve secrets:")
+		fmt.Println("[KEYVAULT] Unable to retrieve secrets:")
 		panic(err.Error())
 	}
 	for c, i := range lResp.Values() {
@@ -58,16 +58,16 @@ func GetSecretList() []string {
 		}
 		fCount = c + 1
 	}
-	fmt.Printf("Got %v filtered secrets will be added to the secret\n", fCount)
+	fmt.Printf("[KEYVAULT] Got %v filtered secrets will be added to the secret\n", fCount)
 	return l
 }
 
 // GetSecret - Retrieve the value of a KV secret
 func GetSecret(s string) string {
-	fmt.Printf("Getting secret %v....\n", s)
+	fmt.Printf("[KEYVAULT] Getting secret %v....\n", s)
 	v, err := kv.GetSecret(context.Background(), GetKvURL(kvName), s, "")
 	if err != nil {
-		fmt.Printf("Failed to get value for %v.\n", s)
+		fmt.Printf("[KEYVAULT] Failed to get value for %v.\n", s)
 		panic(err.Error())
 	}
 	return *v.Value
