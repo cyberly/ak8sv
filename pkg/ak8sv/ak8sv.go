@@ -3,6 +3,7 @@ package ak8sv
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/2019-03-01/keyvault/keyvault"
 	apiv1 "k8s.io/api/core/v1"
@@ -10,8 +11,9 @@ import (
 )
 
 var (
-	kvInclude  string
-	kvExclude  string
+	// AKV Tags can contain whitespace we don't trim that here, be careful creating this var
+	kvTagsInc  []string              = strings.Split(os.Getenv("KEYVAULT_TAGS_EXCLUDE"), ",")
+	kvTagsEx   []string              = strings.Split(os.Getenv("KEYVAULT_TAGS_INCLUDE"), ",")
 	kv         keyvault.BaseClient   = newKvClient()
 	kvName     string                = initEnvData("KEYVAULT_NAME")
 	k8s        *kubernetes.Clientset = newK8sClient()
@@ -30,11 +32,14 @@ func Bootstrap() {
 	fmt.Printf("Secret:\t%v/%v\n\n", sNamespace, sName)
 	switch sType {
 	case "config":
+		if len(kvTagsInc) > 0 && len(kvTagsEx) > 0 {
+			fmt.Println("WARNING: Excluded tags will superceded included tags.")
+		}
 		s = NewConfigSecret()
 	case "certificate":
 		fmt.Println("Not implemented yet.")
 	default:
-		fmt.Println("Unsupported secret type provided, exiting.")
+		fmt.Println("Unsupported secret type provided, exiting")
 		os.Exit(1)
 	}
 	ApplySecret(s)

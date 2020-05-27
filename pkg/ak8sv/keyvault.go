@@ -12,6 +12,24 @@ import (
 	kvauth "github.com/Azure/azure-sdk-for-go/services/keyvault/auth"
 )
 
+func filterSecret(s keyvault.SecretItem, fi []string, fe []string) bool {
+	// These should be safe to run with an empty slice
+	// Add len check if results are unexpected
+	for _, t := range fi {
+		if _, hit := s.Tags[t]; !hit {
+			fmt.Printf("Excluded secret %s, tag %s not present", path.Base(*s.ID), t)
+			return false
+		}
+	}
+	for _, t := range fe {
+		if _, hit := s.Tags[t]; !hit {
+			fmt.Printf("Excluded secret %s, tag %s present", path.Base(*s.ID), t)
+			return false
+		}
+	}
+	return true
+}
+
 // GetKvURL - Turn standard KV name into full URL
 func GetKvURL(kvName string) string {
 	// vault.azure.net
@@ -26,21 +44,21 @@ func GetKvURL(kvName string) string {
 // GetSecretList - Get the names of all sevret names in keyvault
 func GetSecretList() []string {
 	var l []string
-	var sCount int
+	var fCount int
 	fmt.Println("Retrieving secret list...")
 	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), nil)
+	fmt.Printf("Got %v secrets from key vault\n", len(lResp.Values()))
 	if err != nil {
 		fmt.Println("Unable to retrieve secrets:")
 		panic(err.Error())
 	}
 	for c, i := range lResp.Values() {
-		if len(i.Tags) > 0 {
-			fmt.Printf("Found tags on %v", *i.ID)
+		if filterSecret(i, kvTagsInc, kvTagsEx) {
+			l = append(l, path.Base(*i.ID))
 		}
-		l = append(l, path.Base(*i.ID))
-		sCount = c
+		fCount = c + 1
 	}
-	fmt.Printf("Got %v secrets from key vault.\n", sCount)
+	fmt.Printf("Got %v filtered secrets will be added to the secret\n", fCount)
 	return l
 }
 
