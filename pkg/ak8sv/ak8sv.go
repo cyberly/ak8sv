@@ -12,8 +12,8 @@ import (
 
 var (
 	// AKV Tags can contain whitespace we don't trim that here, be careful creating this var
-	kvTagsInc  []string              = strings.Split(os.Getenv("KEYVAULT_TAGS_EXCLUDE"), ",")
-	kvTagsEx   []string              = strings.Split(os.Getenv("KEYVAULT_TAGS_INCLUDE"), ",")
+	kvTagsInc  []string              = strings.Split(os.Getenv("KEYVAULT_TAGS_INCLUDE"), ",")
+	kvTagsEx   []string              = strings.Split(os.Getenv("KEYVAULT_TAGS_EXCLUDE"), ",")
 	kv         keyvault.BaseClient   = newKvClient()
 	kvName     string                = initEnvData("KEYVAULT_NAME")
 	k8s        *kubernetes.Clientset = newK8sClient()
