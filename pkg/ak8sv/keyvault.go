@@ -23,7 +23,7 @@ func filterSecret(s keyvault.SecretItem, fi []string, fe []string) bool {
 			return false
 		}
 	}
-	fmt.Printf("[KEYVAULT] Secret %s (Inc: %v Ex: %v) included", path.Base(*s.ID), fi, fe)
+	fmt.Printf("[KEYVAULT] Secret %s (Inc: %v Ex: %v) included\n", path.Base(*s.ID), fi, fe)
 	return true
 }
 

@@ -29,7 +29,7 @@ func Bootstrap() {
 	fmt.Println("[AK8SV] Keyvault:")
 	fmt.Printf("[AK8SV] Keyvault:\t%v\n", kvName)
 	fmt.Printf("[AK8SV]\t\t%v\n", GetKvURL(kvName))
-	fmt.Printf("[AK8SV] Secret:\t%v/%v\n\n", sNamespace, sName)
+	fmt.Printf("[AK8SV] Secret:\t\t%v/%v\n\n", sNamespace, sName)
 	switch sType {
 	case "config":
 		if len(kvTagsInc) > 0 && len(kvTagsEx) > 0 {
