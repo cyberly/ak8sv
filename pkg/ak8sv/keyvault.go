@@ -43,16 +43,21 @@ func GetKvURL(kvName string) string {
 func GetSecretList() []string {
 	var l []string
 	var fCount int = 0
-	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), 999)
+	sIterator, err := kv.GetSecretsComplete(ctx.Background(), GetKvURL(kvName), nil)
 	if err != nil {
 		log.Printf("Unable to retrieve secrets: %v", err.Error())
 		os.Exit(1)
 	}
-	log.Printf("Got %v secrets from key vault\n", len(lResp.Values()))
-	for _, i := range lResp.Values() {
-		if filterSecret(i, kvTagsInc, kvTagsEx) {
-			l = append(l, path.Base(*i.ID))
+
+	for sIterator.NotDone() {
+		if filterSecret(sIterator.Value(), kvTagsInc, kvTagsEx) {
+			l = append(l, path.Base(*sIterator.Value().ID))
 			fCount++
+		}
+		err := sIterator.Next()
+		if err != nil {
+			log.Printf("Failed to iterator keyvault secrets: %v", err.Error())
+			os.Exit(1)
 		}
 	}
 	log.Printf("%v filtered results will be added to the secret\n", fCount)
