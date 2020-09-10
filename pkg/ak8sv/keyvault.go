@@ -24,7 +24,7 @@ func filterSecret(s keyvault.SecretItem, fi []string, fe []string) bool {
 			return false
 		}
 	}
-	log.Printf("%s added to secret\n", path.Base(*s.ID), fi, fe)
+	log.Printf("%s added to secret\n", path.Base(*s.ID))
 	return true
 }
 
