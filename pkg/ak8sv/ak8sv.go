@@ -25,21 +25,18 @@ var (
 // Bootstrap - Entry point for the application
 func Bootstrap() {
 	var s apiv1.Secret
-	log.Println("[AK8SV] Config:")
-	log.Println("[AK8SV] Keyvault:")
-	log.Printf("[AK8SV] Keyvault:\t%v\n", kvName)
-	log.Printf("[AK8SV]\t\t%v\n", GetKvURL(kvName))
-	log.Printf("[AK8SV] Secret:\t\t%v/%v\n\n", sNamespace, sName)
+	log.Printf("Keyvault:\t%v\n", kvName)
+	log.Printf("URL:\t%v\n", GetKvURL(kvName))
+	log.Printf("Secret:\t%v/%v\n", sNamespace, sName)
+	log.Printf("Included Tags:\t%v\n", kvTagsInc)
+	log.Printf("Excluded Tags:\t%v\n\n", kvTagsEx)
 	switch sType {
 	case "config":
-		if len(kvTagsInc) > 0 && len(kvTagsEx) > 0 {
-			log.Println("[AK8SV] WARNING: Excluded tags will superceded included tags.")
-		}
 		s = NewConfigSecret()
 	case "certificate":
-		log.Println("[AK8SV] Not implemented yet.")
+		log.Println("Certificates not implemented yet.")
 	default:
-		log.Println("[AK8SV] Unsupported secret type provided, exiting")
+		log.Println("Unsupported secret type provided, exiting")
 		os.Exit(1)
 	}
 	ApplySecret(s)
