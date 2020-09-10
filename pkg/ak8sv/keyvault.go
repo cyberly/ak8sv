@@ -20,7 +20,7 @@ func filterSecret(s keyvault.SecretItem, fi []string, fe []string) bool {
 		}
 	}
 	for _, t := range fe {
-		if _, hit := s.Tags[t]; !hit {
+		if _, hit := s.Tags[t]; hit {
 			return false
 		}
 	}
@@ -53,7 +53,6 @@ func GetSecretList() []string {
 		if filterSecret(i, kvTagsInc, kvTagsEx) {
 			l = append(l, path.Base(*i.ID))
 			fCount++
-
 		}
 	}
 	log.Printf("%v filtered results will be added to the secret\n", fCount)
