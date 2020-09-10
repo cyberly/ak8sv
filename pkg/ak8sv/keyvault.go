@@ -3,7 +3,7 @@ package ak8sv
 import (
 	"context"
 	ctx "context"
-	"fmt"
+	"log"
 	"net/url"
 	"path"
 	"strings"
@@ -23,7 +23,7 @@ func filterSecret(s keyvault.SecretItem, fi []string, fe []string) bool {
 			return false
 		}
 	}
-	fmt.Printf("[KEYVAULT] Secret %s (Inc: %v Ex: %v) included\n", path.Base(*s.ID), fi, fe)
+	log.Printf("[KEYVAULT] Secret %s (Inc: %v Ex: %v) included\n", path.Base(*s.ID), fi, fe)
 	return true
 }
 
@@ -42,11 +42,11 @@ func GetKvURL(kvName string) string {
 func GetSecretList() []string {
 	var l []string
 	var fCount int = 0
-	fmt.Println("[KEYVAULT] Retrieving secret list...")
+	log.Println("[KEYVAULT] Retrieving secret list...")
 	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), nil)
-	fmt.Printf("[KEYVAULT] Got %v secrets from key vault\n", len(lResp.Values()))
+	log.Printf("[KEYVAULT] Got %v secrets from key vault\n", len(lResp.Values()))
 	if err != nil {
-		fmt.Println("[KEYVAULT] Unable to retrieve secrets:")
+		log.Println("[KEYVAULT] Unable to retrieve secrets:")
 		panic(err.Error())
 	}
 	for _, i := range lResp.Values() {
@@ -56,16 +56,16 @@ func GetSecretList() []string {
 
 		}
 	}
-	fmt.Printf("[KEYVAULT] Got %v filtered secrets will be added to the secret\n", fCount)
+	log.Printf("[KEYVAULT] Got %v filtered secrets will be added to the secret\n", fCount)
 	return l
 }
 
 // GetSecret - Retrieve the value of a KV secret
 func GetSecret(s string) string {
-	fmt.Printf("[KEYVAULT] Getting secret %v....\n", s)
+	log.Printf("[KEYVAULT] Getting secret %v....\n", s)
 	v, err := kv.GetSecret(context.Background(), GetKvURL(kvName), s, "")
 	if err != nil {
-		fmt.Printf("[KEYVAULT] Failed to get value for %v.\n", s)
+		log.Printf("[KEYVAULT] Failed to get value for %v.\n", s)
 		panic(err.Error())
 	}
 	return *v.Value

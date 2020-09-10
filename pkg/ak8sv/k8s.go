@@ -4,7 +4,7 @@ import (
 	"context"
 	ctx "context"
 	"flag"
-	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -21,18 +21,18 @@ func ApplySecret(data apiv1.Secret) *apiv1.Secret {
 	var secretResp *apiv1.Secret
 	var err error
 	if checkSecret() {
-		fmt.Printf("[K8S] %v/%v exists, updating....\n", sNamespace, sName)
+		log.Printf("[K8S] %v/%v exists, updating....\n", sNamespace, sName)
 		secretResp, err = k8s.CoreV1().Secrets(sNamespace).Update(ctx.TODO(), &data, metav1.UpdateOptions{})
 	} else {
-		fmt.Printf("[K8S] %v/%v not found, creating...\n", sNamespace, sName)
+		log.Printf("[K8S] %v/%v not found, creating...\n", sNamespace, sName)
 		secretResp, err = k8s.CoreV1().Secrets(sNamespace).Create(ctx.TODO(), &data, metav1.CreateOptions{})
 	}
 	if err != nil {
-		fmt.Printf("Error: %v\n", err.Error())
-		fmt.Println("[K8S] Applying secret failed, exiting.")
+		log.Printf("Error: %v\n", err.Error())
+		log.Println("[K8S] Applying secret failed, exiting.")
 		os.Exit(1)
 	}
-	fmt.Printf("[K8S] %v/%v applied successfully.", sNamespace, sName)
+	log.Printf("[K8S] %v/%v applied successfully.", sNamespace, sName)
 	return secretResp
 }
 
@@ -84,12 +84,12 @@ func NewConfigSecret() apiv1.Secret {
 	for _, k := range sList {
 		v, err := kv.GetSecret(context.Background(), GetKvURL(kvName), k, "")
 		if err != nil {
-			fmt.Printf("[K8S] Failed to get value for %v.\n", k)
+			log.Printf("[K8S] Failed to get value for %v.\n", k)
 			panic(err.Error())
 		}
 		sPayload[k] = []byte(*v.Value)
 	}
-	fmt.Printf("[K8S] %v configs added to secret.\n", len(sPayload))
+	log.Printf("[K8S] %v configs added to secret.\n", len(sPayload))
 	s := apiv1.Secret{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Secret",
