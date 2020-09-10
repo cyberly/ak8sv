@@ -43,7 +43,7 @@ func GetKvURL(kvName string) string {
 func GetSecretList() []string {
 	var l []string
 	var fCount int = 0
-	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), nil)
+	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), 999)
 	if err != nil {
 		log.Printf("Unable to retrieve secrets: %v", err.Error())
 		os.Exit(1)
