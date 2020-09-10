@@ -5,6 +5,7 @@ import (
 	ctx "context"
 	"log"
 	"net/url"
+	"os"
 	"path"
 	"strings"
 
@@ -42,13 +43,12 @@ func GetKvURL(kvName string) string {
 func GetSecretList() []string {
 	var l []string
 	var fCount int = 0
-	log.Println("[KEYVAULT] Retrieving secret list...")
 	lResp, err := kv.GetSecrets(ctx.Background(), GetKvURL(kvName), nil)
-	log.Printf("[KEYVAULT] Got %v secrets from key vault\n", len(lResp.Values()))
 	if err != nil {
-		log.Println("[KEYVAULT] Unable to retrieve secrets:")
-		panic(err.Error())
+		log.Printf("Unable to retrieve secrets: %v", err.Error())
+		os.Exit(1)
 	}
+	log.Printf("Got %v secrets from key vault\n", len(lResp.Values()))
 	for _, i := range lResp.Values() {
 		if filterSecret(i, kvTagsInc, kvTagsEx) {
 			l = append(l, path.Base(*i.ID))
@@ -56,16 +56,16 @@ func GetSecretList() []string {
 
 		}
 	}
-	log.Printf("[KEYVAULT] Got %v filtered secrets will be added to the secret\n", fCount)
+	log.Printf("%v filtered results will be added to the secret\n", fCount)
 	return l
 }
 
 // GetSecret - Retrieve the value of a KV secret
 func GetSecret(s string) string {
-	log.Printf("[KEYVAULT] Getting secret %v....\n", s)
+	log.Printf("Getting secret %v....\n", s)
 	v, err := kv.GetSecret(context.Background(), GetKvURL(kvName), s, "")
 	if err != nil {
-		log.Printf("[KEYVAULT] Failed to get value for %v.\n", s)
+		log.Printf("Failed to get value for %v.\n", s)
 		panic(err.Error())
 	}
 	return *v.Value
