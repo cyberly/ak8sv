@@ -14,6 +14,7 @@ import (
 )
 
 func filterSecret(s keyvault.SecretItem, fi []string, fe []string) bool {
+	// This requires ALL tags be present on a secret, may need to refactor
 	for _, t := range fi {
 		if _, hit := s.Tags[t]; !hit {
 			return false
